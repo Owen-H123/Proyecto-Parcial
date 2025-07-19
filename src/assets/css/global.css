@@ -100,3 +100,102 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* media q para movil */
+@media (max-width: 575.98px) {
+  #carouselExampleAutoplaying {
+    background: linear-gradient(to bottom, #ffeb3b, #ffffff);
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #carouselExampleAutoplaying .carousel-item img {
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-custom {
+    flex-direction: column;
+    align-items: start !important;
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-custom .container-xl {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  /* Logo centrado */
+  .logo-custom {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-custom img {
+    max-width: 130px;
+    height: auto;
+  }
+
+  /* Agrupamos búsqueda y hamburguesa en una fila */
+  .search-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-toggle-wrapper form[role="search"] {
+    flex-grow: 1;
+    margin: 0 !important;
+  }
+
+  .search-toggle-wrapper .navbar-toggler {
+    margin: 0;
+    padding: 0.375rem 0.75rem;
+    height: 100%;
+  }
+
+  /* Nav-links debajo, ocupando todo el ancho */
+  .navbar-custom .d-flex.align-items-center.gap-3 {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: auto;
+  }
+
+  .navbar-nav .nav-link {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  /* Ocultar solo imagen promo */
+  .navbar-custom a img[alt="Promo"] {
+    display: none !important;
+  }
+
+  /* Dropdown ancho completo */
+  .dropdown-menu {
+    width: 100%;
+  }
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 1)' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
