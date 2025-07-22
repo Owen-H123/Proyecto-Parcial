@@ -8,6 +8,7 @@ import { Product } from "../pages/Product";
 import { Entrega } from "../pages/Entrega";
 import { Pago } from "../pages/Pago";
 import { DetallePago } from "../pages/DetallePago";
+import { CrearCuenta } from "../pages/CrearCuenta";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,16 @@ const router = createBrowserRouter([
       {
         path: "producto/:id",
         element: <Product />,
+      },
+    ],
+  },
+  {
+    path: "cuenta",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <CrearCuenta />,
       },
     ],
   },
