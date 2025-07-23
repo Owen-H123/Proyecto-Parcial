@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mail, User, Phone, Lock, Check } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 
 export const CrearCuenta = () => {
@@ -46,14 +47,20 @@ export const CrearCuenta = () => {
     }
 
     // Esta función manejará el submit del formulario
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Aquí puedes agregar la lógica para crear la cuenta (API, etc.)
         sessionStorage.setItem("userEmail", formData.email);
         sessionStorage.setItem("userPassword", formData.password);
-        navigate("/ingreso"); // Redirige a login
-    };
 
+        await Swal.fire({
+            title: "Cuenta creada exitosamente",
+            text: "¡Ya puedes iniciar sesión!",
+            icon: "success",
+            confirmButtonText: "Aceptar"
+        });
+
+        navigate("/ingreso");
+    };
     const handleInputKeyDown = (e, step) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -255,10 +262,14 @@ export const CrearCuenta = () => {
                                                 className="form-control"
                                                 placeholder="Crea tu contraseña"
                                                 value={formData.password}
-                                                onChange={(e) =>
-                                                    handleInputChange("password", e.target.value)
-                                                }
+                                                onChange={(e) => handleInputChange("password", e.target.value)}
                                                 onBlur={() => handleStepComplete("password")}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        e.preventDefault();
+                                                        handleStepComplete("password");
+                                                    }
+                                                }}
                                                 ref={passwordRef}
                                             />
                                         </div>
