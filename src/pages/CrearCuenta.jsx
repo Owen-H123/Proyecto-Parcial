@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import { Mail, User, Phone, Lock, Check } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
 
 export const CrearCuenta = () => {
     const navigate = useNavigate();
+    // Refs para los inputs
+    const nameRef = useRef(null);
+    const phoneRef = useRef(null);
+    const passwordRef = useRef(null);
+
 
     const [completedSteps, setCompletedSteps] = useState({
         email: false,
@@ -20,6 +25,9 @@ export const CrearCuenta = () => {
         password: "",
     })
 
+     // Nuevo estado para saber el último paso completado
+    const [lastStep, setLastStep] = useState(null);
+
     const handleInputChange = (field, value) => {
         setFormData({ ...formData, [field]: value })
     }
@@ -33,6 +41,7 @@ export const CrearCuenta = () => {
     const handleStepComplete = (step) => {
         if (formData[step]) {
             setCompletedSteps({ ...completedSteps, [step]: true })
+            setLastStep(step); // Guardamos el último paso completado
         }
     }
 
@@ -45,6 +54,21 @@ export const CrearCuenta = () => {
         navigate("/ingreso"); // Redirige a login
     };
 
+    const handleInputKeyDown = (e, step) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleStepComplete(step);
+        }
+    };
+
+    // Efecto para enfocar el siguiente input cuando cambia el paso
+    useEffect(() => {
+        if (lastStep === "email" && nameRef.current) nameRef.current.focus();
+        if (lastStep === "name" && phoneRef.current) phoneRef.current.focus();
+        if (lastStep === "phone" && passwordRef.current) passwordRef.current.focus();
+    }, [completedSteps, lastStep]);
+
+    
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -99,6 +123,7 @@ export const CrearCuenta = () => {
                                             placeholder="Ingresa tu email"
                                             value={formData.email}
                                             onChange={(e) => handleInputChange("email", e.target.value)}
+                                            onKeyDown={(e) => handleInputKeyDown(e, "email")}
                                         />
                                     </div>
                                 )}
@@ -140,6 +165,8 @@ export const CrearCuenta = () => {
                                             value={formData.name}
                                             onChange={(e) => handleInputChange("name", e.target.value)}
                                             onBlur={() => handleStepComplete("name")}
+                                            onKeyDown={(e) => handleInputKeyDown(e, "name")}
+                                            ref={nameRef}
                                         />
                                     </div>
                                 )}
@@ -183,6 +210,8 @@ export const CrearCuenta = () => {
                                                 value={formData.phone}
                                                 onChange={(e) => handleInputChange("phone", e.target.value)}
                                                 onBlur={() => handleStepComplete("phone")}
+                                                onKeyDown={(e) => handleInputKeyDown(e, "phone")}
+                                                ref={phoneRef}
                                             />
                                         </div>
                                     )}
@@ -231,6 +260,7 @@ export const CrearCuenta = () => {
                                                     handleInputChange("password", e.target.value)
                                                 }
                                                 onBlur={() => handleStepComplete("password")}
+                                                ref={passwordRef}
                                             />
                                         </div>
                                     )}
