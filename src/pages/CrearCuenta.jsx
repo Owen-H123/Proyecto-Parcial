@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Mail, User, Phone, Lock, Check } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +25,7 @@ export const CrearCuenta = () => {
         password: "",
     })
 
-     // Nuevo estado para saber el último paso completado
+    // Nuevo estado para saber el último paso completado
     const [lastStep, setLastStep] = useState(null);
 
     const handleInputChange = (field, value) => {
@@ -68,7 +68,7 @@ export const CrearCuenta = () => {
         if (lastStep === "phone" && passwordRef.current) passwordRef.current.focus();
     }, [completedSteps, lastStep]);
 
-    
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -86,8 +86,7 @@ export const CrearCuenta = () => {
                             <div className="mb-4">
                                 <div className="d-flex align-items-center mb-3">
                                     <div
-                                        className={`rounded-circle d-flex align-items-center justify-content-center me-3 ${completedSteps.email ? "bg-success" : "bg-primary"
-                                            }`}
+                                        className={`rounded-circle d-flex align-items-center justify-content-center me-3 ${completedSteps.email ? "bg-success" : "bg-primary"}`}
                                         style={{ width: "50px", height: "50px" }}
                                     >
                                         {completedSteps.email ? (
@@ -104,16 +103,7 @@ export const CrearCuenta = () => {
                                             Recibirás información de tu cuenta.
                                         </p>
                                     </div>
-                                    {!completedSteps.email && (
-                                        <button
-                                            className="btn btn-primary btn-sm"
-                                            type="button"
-                                            onClick={handleValidateEmail}
-                                            disabled={!formData.email}
-                                        >
-                                            Validar
-                                        </button>
-                                    )}
+                                    {/* El botón Validar ha sido eliminado */}
                                 </div>
                                 {!completedSteps.email && (
                                     <div className="ms-5 ps-2">
@@ -123,6 +113,7 @@ export const CrearCuenta = () => {
                                             placeholder="Ingresa tu email"
                                             value={formData.email}
                                             onChange={(e) => handleInputChange("email", e.target.value)}
+                                            onBlur={() => handleStepComplete("email")}
                                             onKeyDown={(e) => handleInputKeyDown(e, "email")}
                                         />
                                     </div>
@@ -192,7 +183,7 @@ export const CrearCuenta = () => {
                                     </div>
                                     <div className="flex-grow-1">
                                         <h5 className="mb-1 text-primary fw-semibold">
-                                            Valida tu teléfono
+                                            Valida tu Celular
                                         </h5>
                                         <p className="mb-0 text-muted small">
                                             Podrás usarlo para ingresar a tu cuenta.
@@ -208,8 +199,16 @@ export const CrearCuenta = () => {
                                                 className="form-control"
                                                 placeholder="Ingresa tu teléfono"
                                                 value={formData.phone}
-                                                onChange={(e) => handleInputChange("phone", e.target.value)}
-                                                onBlur={() => handleStepComplete("phone")}
+                                                maxLength={9}
+                                                onChange={(e) => {
+                                                    // Solo números y máximo 9 dígitos
+                                                    const value = e.target.value.replace(/\D/g, '').slice(0, 9);
+                                                    handleInputChange("phone", value);
+                                                }}
+                                                onBlur={() => {
+                                                    // Solo marca como completo si hay 9 dígitos
+                                                    if (formData.phone.length === 9) handleStepComplete("phone");
+                                                }}
                                                 onKeyDown={(e) => handleInputKeyDown(e, "phone")}
                                                 ref={phoneRef}
                                             />
